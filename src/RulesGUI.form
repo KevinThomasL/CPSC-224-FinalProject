@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="RulesGUI">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="bd7d5" class="javax.swing.JTextPane" binding="YAHTZEERULESTheObjectiveTextPane">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="Courier New" size="12"/>
+          <text value="YAHTZEE RULES&#10;&#10;The objective of YAHTZEE is to get as many points as possible by rolling five dice and getting certain combinations of dice.&#10;&#10;&#10;&#10;GAMELAY&#10;&#10;In each turn a player may throw the dice up to three times. A player doesn't have to roll all five dice on the second and third throw of a round, he may put as many dice as he wants to the side and only throw the ones that don't have the numbers he's trying to get. For example, a player throws and gets 1,3,3,4,6. He decides he want to try for the large straight, 1,2,3,4,5. So, he puts 1,3,4 to the side and only throws 3 and 6 again, hoping to get 2 and 5.&#10;&#10;In this game you click on the dice you want to keep. They will be moved down and will not be thrown the next time you press the 'Roll Dice' button. If you decide after the second throw in a turn that you don't want to keep the same dice before the third throw then you can click them again and they will move back to the table and be thrown in the third throw.&#10;&#10;&#10;&#10;UPPER SECTION COMBINATIONS&#10;&#10;Ones: Get as many ones as possible.&#10;Twos: Get as many twos as possible.&#10;Threes: Get as many threes as possible.&#10;Fours: Get as many fours as possible.&#10;Fives: Get as many fives as possible.&#10;Sixes: Get as many sixes as possible.&#10;For the six combinations above the score for each of them is the sum of dice of the right kind. E.g. if you get 1,3,3,3,5 and you choose Threes you will get 3*3 = 9 points. The sum of all the above combinations is calculated and if it is 63 or more, the player will get a bonus of 35 points. On average a player needs three of each to reach 63, but it is not required to get three of each exactly, it is perfectly OK to have five sixes, and zero ones for example, as long as the sum is 63 or more the bonus will be awarded.&#10;&#10;&#10;&#10;LOWER SECTION COMBINATIONS&#10;&#10;Three of a kind: Get three dice with the same number. Points are the sum all dice (not just the three of a kind).&#10;Four of a kind: Get four dice with the same number. Points are the sum all dice (not just the four of a kind).&#10;Full house: Get three of a kind and a pair, e.g. 1,1,3,3,3 or 3,3,3,6,6. Scores 25 points.&#10;Small straight: Get four sequential dice, 1,2,3,4 or 2,3,4,5 or 3,4,5,6. Scores 30 points.&#10;Large straight: Get five sequential dice, 1,2,3,4,5 or 2,3,4,5,6. Scores 40 points.&#10;Chance: You can put anything into chance, it's basically like a garbage can when you don't have anything else you can use the dice for. The score is simply the sum of the dice.&#10;YAHTZEE: Five of a kind. Scores 50 points. You can optionally get multiple Yahtzees, see below for details."/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
