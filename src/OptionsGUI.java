@@ -22,7 +22,7 @@ public class OptionsGUI extends JFrame {
     private JComboBox sidesInput;
     private JComboBox rollsInput;
     private static int dice_in_play = 5;
-    private static int sides_in_play = 6;
+    private static int sides_in_play = 7;
     private static int rolls_in_play = 2;
 
     /**
@@ -39,11 +39,11 @@ public class OptionsGUI extends JFrame {
         setLocation(350, 180);
         setVisible(true);
 
-        String[] diceValues = {"5", "6", "7"};
+        String[] diceValues = {"7", "10", "12"};
         diceInput.setModel(new DefaultComboBoxModel<String>(diceValues));
-        String[] sideValues = {"6", "8", "12"};
+        String[] sideValues = {"7"};
         sidesInput.setModel(new DefaultComboBoxModel<String>(sideValues));
-        String[] rollValues = {"2", "4", "6"};
+        String[] rollValues = {"3", "4", "6"};
         rollsInput.setModel(new DefaultComboBoxModel<String>(rollValues));
 
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());

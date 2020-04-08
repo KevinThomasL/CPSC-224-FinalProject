@@ -49,7 +49,7 @@ public class Score {
         for (int i = 1; i <= GameGUI.getSides_of_dice(); i++)
             scorecardLineList.add(Integer.toString(i));
         for (int i = 3; i < GameGUI.getDice_in_play(); i++)
-            scorecardLineList.add(i + "K");
+            scorecardLineList.add(i + "C");
         if (GameGUI.getDice_in_play() >= 5) // else, FH is impossible
             scorecardLineList.add("FH");
         scorecardLineList.add("SS");
@@ -208,12 +208,12 @@ public class Score {
 
         for (int i = 3; i < GameGUI.getDice_in_play(); i++) {
             if (maxOfAKindFound() >= i) {
-                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "K")))
-                    lowerScoreCard += "Score " + totalAllDice() + " on the " + i + "K line\n";
+                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "C")))
+                    lowerScoreCard += "Score " + totalAllDice() + " on the " + i + "C line\n";
                 possibleScoresList.add(totalAllDice());
             } else {
-                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "K")))
-                    lowerScoreCard += "Score 0  on the " + i + "K line\n";
+                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "C")))
+                    lowerScoreCard += "Score 0  on the " + i + "C line\n";
                 possibleScoresList.add(0);
             }
         }
