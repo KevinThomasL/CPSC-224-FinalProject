@@ -18,22 +18,22 @@
           <text value="CONFIGURATION OPTIONS"/>
         </properties>
       </component>
-      <component id="918f0" class="javax.swing.JLabel" binding="diceInPlay">
+      <component id="918f0" class="javax.swing.JLabel" binding="numPlayers">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Courier New"/>
-          <text value="Dice In Play"/>
+          <text value="Num of Players"/>
         </properties>
       </component>
-      <component id="80d0e" class="javax.swing.JLabel" binding="sidesInPlay">
+      <component id="80d0e" class="javax.swing.JLabel" binding="diceInPlay">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Courier New"/>
-          <text value="Sides Of Dice"/>
+          <text value="Dice in play"/>
         </properties>
       </component>
       <component id="189ef" class="javax.swing.JLabel" binding="rollsInPlay">
@@ -56,7 +56,7 @@
           <text value="SUBMIT"/>
         </properties>
       </component>
-      <component id="71461" class="javax.swing.JComboBox" binding="diceInput">
+      <component id="71461" class="javax.swing.JComboBox" binding="playersInput">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -64,7 +64,7 @@
           <font name="Courier New"/>
         </properties>
       </component>
-      <component id="d7897" class="javax.swing.JComboBox" binding="sidesInput">
+      <component id="d7897" class="javax.swing.JComboBox" binding="diceInput">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>

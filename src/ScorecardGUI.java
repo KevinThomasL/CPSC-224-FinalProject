@@ -42,6 +42,7 @@ public class ScorecardGUI extends JFrame{
      * displays scores to the user. no interaction is necessary
      */
     public void displayScores() {
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(180, 550);
         scores.setText(Score.displayScoreCard());
         lineText.setVisible(false);
@@ -54,7 +55,8 @@ public class ScorecardGUI extends JFrame{
      * @param text the text representing possible scores
      */
     public void displayScoreOptions(String text) {
-        setSize(250, 400);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setSize(250, 425);
         scores.setText(text);
         lineText.setVisible(true);
         userInput.setVisible(true);

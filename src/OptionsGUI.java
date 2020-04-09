@@ -15,16 +15,17 @@ import java.awt.event.ActionListener;
 public class OptionsGUI extends JFrame {
     private JPanel mainPanel;
     private JLabel configuration;
+    private JLabel numPlayers;
     private JLabel diceInPlay;
-    private JLabel sidesInPlay;
     private JLabel rollsInPlay;
     private JButton submit;
     private JComboBox diceInput;
-    private JComboBox sidesInput;
+    private JComboBox playersInput;
     private JComboBox rollsInput;
     private static int dice_in_play = 5;
     private static int sides_in_play = 7;
     private static int rolls_in_play = 2;
+    private static int num_of_players = 1;
 
     /**
      * DVC creates drop down combo menus for user to interact with
@@ -40,15 +41,15 @@ public class OptionsGUI extends JFrame {
         setLocation(350, 180);
         setVisible(true);
 
+        String[] sideValues = {"1", "2"};
+        playersInput.setModel(new DefaultComboBoxModel<String>(sideValues));
         String[] diceValues = {"7", "10", "12"};
         diceInput.setModel(new DefaultComboBoxModel<String>(diceValues));
-        String[] sideValues = {"7"};
-        sidesInput.setModel(new DefaultComboBoxModel<String>(sideValues));
         String[] rollValues = {"3", "4", "6"};
         rollsInput.setModel(new DefaultComboBoxModel<String>(rollValues));
 
+        num_of_players = Integer.parseInt((String) playersInput.getSelectedItem());
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());
-        sides_in_play = Integer.parseInt((String) sidesInput.getSelectedItem());
         rolls_in_play = Integer.parseInt((String) rollsInput.getSelectedItem());
 
         submit.addActionListener(new ActionListener() {
@@ -64,11 +65,19 @@ public class OptionsGUI extends JFrame {
      * reads the configuration and stores values in global variables
      */
     private void readConfiguration() {
+        num_of_players = Integer.parseInt((String) playersInput.getSelectedItem());
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());
-        sides_in_play = Integer.parseInt((String) sidesInput.getSelectedItem());
         rolls_in_play = Integer.parseInt((String) rollsInput.getSelectedItem());
         GameGUI newGame = new GameGUI("RAINBOW YAHTZEE");
         dispose();
+    }
+
+    /**
+     * returns the number of players in game
+     * @return players in game
+     */
+    public static int getNum_of_players() {
+        return num_of_players;
     }
 
     /**

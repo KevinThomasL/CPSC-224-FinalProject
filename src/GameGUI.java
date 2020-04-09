@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class GameGUI extends JFrame {
 
+    private static int num_of_players = OptionsGUI.getNum_of_players();
     private static int dice_in_play = OptionsGUI.getDice_in_play();
     private static int sides_of_dice = OptionsGUI.getSides_in_play();
     private static int rolls_of_dice = OptionsGUI.getRolls_in_play();
@@ -41,8 +42,7 @@ public class GameGUI extends JFrame {
         super(title);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
-        setSize(700,200);
-        setLocation(350, 180);
+        determineFrameSize();
         setVisible(true);
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -62,6 +62,19 @@ public class GameGUI extends JFrame {
         createRollButton(); // create roll again button
         createScorecardButton(); // create scorecard button
         createNextTurnButton(); // create next turn button
+    }
+
+    private void determineFrameSize() {
+        if (dice_in_play == 7) {
+            setSize(700, 200);
+            setLocation(350, 180);
+        } else if (dice_in_play == 10) {
+            setSize(950, 200);
+            setLocation(200, 180);
+        } else {
+            setSize(1050, 200);
+            setLocation(150, 180);
+        }
     }
 
     /**
@@ -176,7 +189,7 @@ public class GameGUI extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 10;
         c.weightx = 0.0;
-        c.gridwidth = 1;
+        c.gridwidth = dice_in_play / 3;
         c.gridx = 0;
         c.gridy = 2;
         mainPanel.add(rollAgain, c);
@@ -198,8 +211,8 @@ public class GameGUI extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 10;
         c.weightx = 0.0;
-        c.gridwidth = 2;
-        c.gridx = 1;
+        c.gridwidth = dice_in_play / 3;
+        c.gridx = dice_in_play / 3;
         c.gridy = 2;
         mainPanel.add(scorecardButton, c);
     }
@@ -229,8 +242,8 @@ public class GameGUI extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 10;
         c.weightx = 0.0;
-        c.gridwidth = dice_in_play - 3;
-        c.gridx = 3;
+        c.gridwidth = dice_in_play - ((dice_in_play / 3) * 2);
+        c.gridx = ((dice_in_play / 3) * 2);
         c.gridy = 2;
         mainPanel.add(nextTurnButton, c);
     }
