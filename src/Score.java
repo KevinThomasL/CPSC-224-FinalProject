@@ -1,20 +1,20 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * This program represents the score card for the game of Yahtzee.
+ * This program represents the score card for the game of Rainbow Yahtzee.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
 
 public class Score {
 
-    private Integer smallStraight = 4;
-    private Integer largeStraight = 5;
+    private static ArrayList<String> colorsList = new ArrayList<String>(Arrays.asList("R", "O", "Y", "G", "B", "I", "V")); // holds values of all colors in order
     private static ArrayList<Integer> possibleScoresList = new ArrayList<>(); // keeps running values of possible scores
     private static ArrayList<Integer> scorecardScoreList = new ArrayList<>(); // array for running scores of scorecard
     static ArrayList<Integer> usedScoreCardLines = new ArrayList<>(); // running list of used card lines
@@ -26,6 +26,11 @@ public class Score {
     private static Integer upperTotal = 0;
     private static Integer lowerTotal = 0;
     private static Integer grandTotal = 0;
+    // values for number of lower scorecard options scored
+    private int foundNumPrimaries = 0;
+    private int foundNumSecondaries = 0;
+    private int foundNumWarm = 0;
+    private int foundNumCold = 0;
 
     /**
      * DVC that outputs to user that they have an empty hand
@@ -47,15 +52,16 @@ public class Score {
      */
     public static void createLinesOfScorecard() {
         for (int i = 1; i <= GameGUI.getSides_of_dice(); i++)
-            scorecardLineList.add(Integer.toString(i));
+            scorecardLineList.add(colorsList.get(i-1));
+//            scorecardLineList.add(Integer.toString(i));
         for (int i = 3; i < GameGUI.getDice_in_play(); i++)
             scorecardLineList.add(i + "C");
-        if (GameGUI.getDice_in_play() >= 5) // else, FH is impossible
-            scorecardLineList.add("FH");
-        scorecardLineList.add("SS");
-        scorecardLineList.add("LS");
-        scorecardLineList.add("Y");
+        scorecardLineList.add("P");
+        scorecardLineList.add("S");
+        scorecardLineList.add("WP");
+        scorecardLineList.add("CP");
         scorecardLineList.add("C");
+        scorecardLineList.add("R");
     }
 
     /**
@@ -113,7 +119,7 @@ public class Score {
                 usedScoreCardLines.add(indexToUpdate);
             scorecardScoreList.set(indexToUpdate, possibleScoresList.get(indexToUpdate));
             calculateRunningScores();
-            for (int i = 0; i < scorecardLineList.size(); i ++) {
+            for (int i = 0; i < scorecardLineList.size(); i++) {
                 buffer.write(String.format("%s\t\t\t\t%s", scorecardLineList.get(i), scorecardScoreList.get(i)));
                 buffer.write(System.getProperty("line.separator"));
             }
@@ -165,7 +171,7 @@ public class Score {
         for (int i = 0; i < GameGUI.getSides_of_dice(); i++)
             subTotal += scorecardScoreList.get(i);
         // bonus
-        if (subTotal > 63)
+        if (subTotal > 84)
             bonus = 35;
         else
             bonus = 0;
@@ -192,7 +198,7 @@ public class Score {
                     currentCount++;
             }
             if (!usedScoreCardLines.contains(dieValue - 1))
-                upperScoreCard +=  "Score " + dieValue * currentCount + "  on the " + dieValue + " line\n";
+                upperScoreCard +=  "Score " + dieValue * currentCount + "\ton the " + colorsList.get(dieValue - 1) + " line\n";
             possibleScoresList.add(dieValue * currentCount);
         }
         return upperScoreCard;
@@ -204,7 +210,6 @@ public class Score {
      */
     private String lowerScoreCard() {
         String lowerScoreCard = "";
-        determineSmallAndLargeStraight();
 
         for (int i = 3; i < GameGUI.getDice_in_play(); i++) {
             if (maxOfAKindFound() >= i) {
@@ -217,51 +222,64 @@ public class Score {
                 possibleScoresList.add(0);
             }
         }
-        if (GameGUI.getDice_in_play() >= 5) {
-            if (fullHouseFound()) {
-                if (!usedScoreCardLines.contains(scorecardLineList.indexOf("FH")))
-                    lowerScoreCard += "Score 25 on the FH line\n";
-                possibleScoresList.add(25);
-            } else {
-                if (!usedScoreCardLines.contains(scorecardLineList.indexOf("FH")))
-                    lowerScoreCard += "Score 0  on the FH line\n";
-                possibleScoresList.add(0);
-            }
-        }
 
-        if (maxStraightFound() >= smallStraight) {
-            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("SS")))
-                lowerScoreCard += "Score 30 on the SS line\n";
-            possibleScoresList.add(30);
+        if (primaryFound()) {
+            int scoreValue = 25 * foundNumPrimaries;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("P")))
+                lowerScoreCard += "Score " + scoreValue + " on the P line\n";
+            possibleScoresList.add(scoreValue);
         } else {
-            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("SS")))
-                lowerScoreCard += "Score 0  on the SS line\n";
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("P")))
+                lowerScoreCard += "Score 0  on the P line\n";
             possibleScoresList.add(0);
         }
 
-        if (maxStraightFound() >= largeStraight) {
-            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("LS")))
-                lowerScoreCard += "Score 40 on the LS line\n";
-            possibleScoresList.add(40);
+        if (secondaryFound()) {
+            int scoreValue = 25 * foundNumSecondaries;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("S")))
+                lowerScoreCard += "Score "+ scoreValue + " on the S line\n";
+            possibleScoresList.add(scoreValue);
         } else {
-            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("LS")))
-                lowerScoreCard += "Score 0  on the LS line\n";
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("S")))
+                lowerScoreCard += "Score 0  on the S line\n";
             possibleScoresList.add(0);
         }
 
-        if (maxOfAKindFound() >= GameGUI.getDice_in_play()) {
-            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("Y")))
-                lowerScoreCard += "Score 50 on the Y line\n";
-            possibleScoresList.add(50);
+        if (warmPalletFound()) {
+            int scoreValue = 30 * foundNumWarm;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("WP")))
+                lowerScoreCard += "Score " + scoreValue + " on the WP line\n";
+            possibleScoresList.add(scoreValue);
         } else {
-            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("Y")))
-                lowerScoreCard += "Score 0  on the Y line\n";
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("WP")))
+                lowerScoreCard += "Score 0  on the WP line\n";
+            possibleScoresList.add(0);
+        }
+
+        if (coldPalletFound()) {
+            int scoreValue = 40 * foundNumCold;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("CP")))
+                lowerScoreCard += "Score " + scoreValue + " on the CP line\n";
+            possibleScoresList.add(scoreValue);
+        } else {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("CP")))
+                lowerScoreCard += "Score 0  on the CP line\n";
             possibleScoresList.add(0);
         }
 
         if (!usedScoreCardLines.contains(scorecardLineList.indexOf("C")))
             lowerScoreCard += "Score " + totalAllDice() + " on the C line\n";
         possibleScoresList.add(totalAllDice());
+
+        if (rainbowFound()) {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("R")))
+                lowerScoreCard += "Score 80 on the R line\n";
+            possibleScoresList.add(80);
+        } else {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("R")))
+                lowerScoreCard += "Score 0  on the R line\n";
+            possibleScoresList.add(0);
+        }
 
         return lowerScoreCard;
     }
@@ -299,55 +317,211 @@ public class Score {
     }
 
     /**
-     * determines the max number of a straight that is found in hand
-     * @return maxLength  - the maximum length of a straight that is found in hand
+     * determines if there is a primary in the hand
+     * @return true if primary (yellow, red, and blue) (dice 3,1,5) present, false otherwise
      */
-    private int maxStraightFound() {
-        int maxLength = 1;
-        int curLength = 1;
-        for(int counter = 0; counter < GameGUI.getDice_in_play() - 1; counter++) {
-            if (hand.get(counter) + 1 == hand.get(counter + 1))
-                curLength++;
-            else if (hand.get(counter) + 1 < hand.get(counter + 1))
-                curLength = 1;
-            if (curLength > maxLength)
-                maxLength = curLength;
-        }
-        return maxLength;
-    }
+    private boolean primaryFound() {
+        boolean foundPrimary = false;
+        boolean isYellow = false;
+        int yellowCount = 0;
+        boolean isRed = false;
+        int redCount = 0;
+        boolean isBlue = false;
+        int blueCount = 0;
 
-    /**
-     * determines if there is a full house in the hand
-     * @return true if full house present, false otherwise
-     */
-    private boolean fullHouseFound() {
-        boolean foundFH = false;
-        boolean found3K = false;
-        boolean found2K = false;
-        int currentCount ;
-
-        for (int dieValue = 1; dieValue <= GameGUI.getSides_of_dice(); dieValue++) {
-            currentCount = 0;
-            for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
-                if (hand.get(diePosition) == dieValue)
-                    currentCount++;
+        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+            if (hand.get(diePosition) == 3) {
+                isYellow = true;
+                yellowCount += 1;
             }
-            if (currentCount == 2)
-                found2K = true;
-            if (currentCount == 3)
-                found3K = true;
+            if (hand.get(diePosition) == 1) {
+                isRed = true;
+                redCount += 1;
+            }
+            if (hand.get(diePosition) == 5) {
+                isBlue = true;
+                blueCount += 1;
+            }
         }
-        if (found2K && found3K)
-            foundFH = true;
-        return foundFH;
+
+        if(isYellow && isRed && isBlue)
+            foundPrimary = true;
+
+        // determines if there are two or three primaries
+        if(yellowCount == 2 && redCount == 2 && blueCount == 2)
+            foundNumPrimaries = 2;
+        else if(yellowCount == 3 && redCount == 3 && blueCount == 3)
+            foundNumPrimaries = 3;
+        else
+            foundNumPrimaries = 1;
+
+        return foundPrimary;
     }
 
     /**
-     * determines what numbers should be included in the small straight and large straight
+     * determines if there is a secondary in the hand
+     * @return true if secondary (green, orange, and violet) (dice 4,2,7) present, false otherwise
      */
-    private void determineSmallAndLargeStraight() {
-        smallStraight = GameGUI.getSides_of_dice() - 2;
-        largeStraight = GameGUI.getSides_of_dice() - 1;
+    private boolean secondaryFound() {
+        boolean foundSecondary = false;
+        boolean isGreen = false;
+        int greenCount = 0;
+        boolean isOrange = false;
+        int orangeCount = 0;
+        boolean isViolet = false;
+        int violetCount = 0;
+
+        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+            if (hand.get(diePosition) == 4) {
+                isGreen = true;
+                greenCount += 1;
+            }
+            if (hand.get(diePosition) == 2) {
+                isOrange = true;
+                orangeCount += 1;
+            }
+            if (hand.get(diePosition) == 7) {
+                isViolet = true;
+                violetCount += 1;
+            }
+        }
+
+        if(isGreen && isOrange && isViolet)
+            foundSecondary = true;
+
+        // determines if there are two or three secondaries
+        if(greenCount == 2 && orangeCount == 2 && violetCount == 2)
+            foundNumSecondaries = 2;
+        else if(greenCount == 3 && orangeCount == 3 && violetCount == 3)
+            foundNumSecondaries = 3;
+        else
+            foundNumSecondaries = 1;
+
+        return foundSecondary;
+    }
+
+    /**
+     * determines if there is a warm pallet in the hand
+     * @return true if secondary (red, orange, and yellow) (dice 1,2,3) present, false otherwise
+     */
+    private boolean warmPalletFound() {
+        boolean foundWarmPallet = false;
+        boolean isRed = false;
+        int redCount = 0;
+        boolean isOrange = false;
+        int orangeCount = 0;
+        boolean isYellow = false;
+        int yellowCount = 0;
+
+        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+            if (hand.get(diePosition) == 1) {
+                isRed = true;
+                redCount += 1;
+            }
+            if (hand.get(diePosition) == 2) {
+                isOrange = true;
+                orangeCount += 1;
+            }
+            if (hand.get(diePosition) == 3) {
+                isYellow = true;
+                yellowCount += 1;
+            }
+        }
+
+        if(isRed && isOrange && isYellow)
+            foundWarmPallet = true;
+
+        // determines if there are two or three warmPallets
+        if(redCount == 2 && orangeCount == 2 && yellowCount == 2)
+            foundNumWarm = 2;
+        else if(redCount == 3 && orangeCount == 3 && yellowCount == 3)
+            foundNumWarm = 3;
+        else
+            foundNumWarm = 1;
+
+        return foundWarmPallet;
+    }
+
+    /**
+     * determines if there is a cold pallet in the hand
+     * @return true if cold pallet (green, blue, indigo, and violet) present, false otherwise
+     */
+    private boolean coldPalletFound() {
+        boolean foundColdPallet = false;
+        boolean isGreen = false;
+        int greenCount = 0;
+        boolean isBlue = false;
+        int blueCount = 0;
+        boolean isIndigo = false;
+        int indigoCount = 0;
+        boolean isViolet = false;
+        int violetCount = 0;
+
+        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+            if (hand.get(diePosition) == 4) {
+                isGreen = true;
+                greenCount += 1;
+            }
+            if (hand.get(diePosition) == 5) {
+                isBlue = true;
+                blueCount += 1;
+            }
+            if (hand.get(diePosition) == 6) {
+                isIndigo = true;
+                indigoCount += 1;
+            }
+            if (hand.get(diePosition) == 7) {
+                isViolet = true;
+                violetCount += 1;
+            }
+        }
+
+        if(isGreen && isBlue && isIndigo && isViolet)
+            foundColdPallet = true;
+
+        if(greenCount == 2 && blueCount == 2 && indigoCount == 2 && violetCount == 2)
+            foundNumCold = 2;
+        else
+            foundNumCold = 1;
+
+        return foundColdPallet;
+    }
+
+    /**
+     * determines if there is a rainbow in the hand
+     * @return true if rainbow present, false otherwise
+     */
+    private boolean rainbowFound() {
+        boolean foundRainbow = false;
+        boolean isRed = false;
+        boolean isOrange = false;
+        boolean isYellow = false;
+        boolean isGreen = false;
+        boolean isBlue = false;
+        boolean isIndigo = false;
+        boolean isViolet = false;
+
+        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+            if (hand.get(diePosition) == 1)
+                isRed = true;
+            if (hand.get(diePosition) == 2)
+                isOrange = true;
+            if (hand.get(diePosition) == 3)
+                isYellow = true;
+            if (hand.get(diePosition) == 4)
+                isGreen = true;
+            if (hand.get(diePosition) == 5)
+                isBlue = true;
+            if (hand.get(diePosition) == 6)
+                isIndigo = true;
+            if (hand.get(diePosition) == 7)
+                isViolet = true;
+        }
+
+        if(isRed && isOrange && isYellow && isGreen && isBlue && isIndigo && isViolet)
+            foundRainbow = true;
+
+        return foundRainbow;
     }
 
     /**
@@ -356,20 +530,5 @@ public class Score {
      */
     public static ArrayList<String> getScorecardLineList() {
         return scorecardLineList;
-    }
-
-    /**
-     * determines if the line code from user is valid
-     * @param userInputLineCode line code user entered
-     * @return true if valid, false otherwise
-     */
-    public static boolean validateLineCode(String userInputLineCode) {
-        int indexOfLineCode = scorecardLineList.indexOf(userInputLineCode);
-        System.out.println("INDEX IS:    ::  "  + indexOfLineCode);
-        System.out.println("used " + usedScoreCardLines);
-        if (usedScoreCardLines.contains(indexOfLineCode)) {
-            return false;
-        } else
-            return true;
     }
 }

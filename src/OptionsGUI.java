@@ -6,11 +6,12 @@ import java.awt.event.ActionListener;
 /**
  * This class represents the OptionsGUI.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
+
 public class OptionsGUI extends JFrame {
     private JPanel mainPanel;
     private JLabel configuration;
@@ -54,6 +55,7 @@ public class OptionsGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 readConfiguration();
+                dispose();
             }
         });
     }
@@ -65,7 +67,7 @@ public class OptionsGUI extends JFrame {
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());
         sides_in_play = Integer.parseInt((String) sidesInput.getSelectedItem());
         rolls_in_play = Integer.parseInt((String) rollsInput.getSelectedItem());
-        GameGUI newGame = new GameGUI("YAHTZEE");
+        GameGUI newGame = new GameGUI("RAINBOW YAHTZEE");
         dispose();
     }
 

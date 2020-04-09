@@ -3,11 +3,12 @@ import javax.swing.*;
 /**
  * This class represents the RulesGUI.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
+
 public class RulesGUI extends JFrame {
     private JPanel mainPanel;
     private JTextPane YAHTZEERULESTheObjectiveTextPane;

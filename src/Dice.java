@@ -3,10 +3,10 @@ import java.util.Random;
 /**
  * This class represents the attributes of a dice.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
 
 public class Dice {

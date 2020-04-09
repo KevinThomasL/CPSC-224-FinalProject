@@ -8,11 +8,12 @@ import java.util.ArrayList;
 /**
  * This class represents the GameGUI / brain of game.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
+
 public class GameGUI extends JFrame {
 
     private static int dice_in_play = OptionsGUI.getDice_in_play();

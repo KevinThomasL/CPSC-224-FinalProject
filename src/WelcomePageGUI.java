@@ -6,11 +6,12 @@ import java.awt.event.ActionListener;
 /**
  * This class represents the WelcomePageGUI.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
+
 public class WelcomePageGUI extends JFrame{
     private JPanel mainPanel;
     private JButton RULESButton;
@@ -48,7 +49,7 @@ public class WelcomePageGUI extends JFrame{
     }
 
     public static void main(String[] args) {
-        JFrame frame = new WelcomePageGUI("YAHTZEE");
+        JFrame frame = new WelcomePageGUI("RAINBOW YAHTZEE");
         frame.setVisible(true);
     }
 }

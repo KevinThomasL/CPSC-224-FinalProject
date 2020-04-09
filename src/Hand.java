@@ -5,11 +5,12 @@ import java.util.Random;
 /**
  * This class represents the Hand of dice.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
+
 public class Hand {
 
     private static int dice_in_play = GameGUI.getDice_in_play();

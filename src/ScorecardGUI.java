@@ -6,11 +6,12 @@ import java.awt.event.ActionListener;
 /**
  * This class represents the ScorecardGUI.
  * CPSC 224-01, Spring 2020
- * Programming Assignment #4
+ * Programming Assignment Project
  * sources to cite:
  *
- * @author Nicole Bien
+ * @author Nicole, Kevin, Eric, Jackson
  */
+
 public class ScorecardGUI extends JFrame{
     private JPanel mainPanel;
     private JTextPane scores;
@@ -25,7 +26,7 @@ public class ScorecardGUI extends JFrame{
      */
     public ScorecardGUI(String title) {
         super(title);
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
         setSize(180, 450);
