@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class represents the GameGUI / brain of game.
@@ -21,18 +22,17 @@ public class GameGUI extends JFrame {
     private static int sides_of_dice = OptionsGUI.getSides_in_play();
     private static int rolls_of_dice = OptionsGUI.getRolls_in_play();
     private JPanel mainPanel;
-    private static Hand diceInHand;
-    private static int turn = 1;
     private static ArrayList<Integer> checkboxes = new ArrayList<Integer>();
     private GridBagConstraints c = new GridBagConstraints();
-    private ScorecardGUI scorecard;
-    static Score determineScore;
     private Font f1 = new Font("Courier New", Font.PLAIN,  14);
     private JLabel[] diceLBZ;
     private JCheckBox[] checkLBZ;
     private JButton rollAgain;
     private JButton nextTurnButton;
+    private JButton scorecardButton;
     static boolean goHit = false;
+    private static ArrayList<Player> players = new ArrayList<Player>();
+    private static int curr_player = 0;
 
     /**
      * DVC creates the panel with dice, checkboxes, and buttons
@@ -40,20 +40,15 @@ public class GameGUI extends JFrame {
      */
     public GameGUI (String title) {
         super(title);
+        for (int i = 0; i < num_of_players; i++) { // initialize player objects
+            players.add(new Player(rolls_of_dice, "PLAYER"+(i+1)+" SCORECARD", i));
+        }
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
         determineFrameSize();
         setVisible(true);
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         c.fill = GridBagConstraints.HORIZONTAL;
-
-        Score.createScorecard();
-        Score.readScorecard();
-        Score.usedScoreCardLines.clear();
-        scorecard = new ScorecardGUI("SCORECARD");
-        scorecard.setVisible(false);
-        diceInHand = new Hand();
-        determineScore = new Score(diceInHand.getHand());
         diceLBZ = new JLabel[dice_in_play];
         checkLBZ = new JCheckBox[dice_in_play];
 
@@ -83,7 +78,7 @@ public class GameGUI extends JFrame {
     public void rollDice() {
         for (int i = 1; i <= dice_in_play; i++) {
             diceLBZ[i - 1] = new JLabel();
-            diceLBZ[i - 1].setIcon(getScaledImageIcon("dice" + diceInHand.getHand().get(i - 1) + ".png"));
+            diceLBZ[i - 1].setIcon(getScaledImageIcon("dice" + players.get(curr_player).getHand().getHand().get(i-1) + ".png"));
             c.weightx = 0.5;
             c.fill = GridBagConstraints.CENTER;
             c.gridx = i - 1;
@@ -97,7 +92,7 @@ public class GameGUI extends JFrame {
      */
     public void updateDice() {
         for (int i = 1; i <= dice_in_play; i++) {
-            diceLBZ[i - 1].setIcon(getScaledImageIcon("dice" + diceInHand.getHand().get(i - 1) + ".png"));
+            diceLBZ[i - 1].setIcon(getScaledImageIcon("dice" + players.get(curr_player).getHand().getHand().get(i-1) + ".png"));
         }
     }
 
@@ -159,28 +154,37 @@ public class GameGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 findSelectedBoxes();
-                if (Score.usedScoreCardLines.size() > Score.getScorecardLineList().size()) { // if no more spots
-                    JOptionPane.showMessageDialog(mainPanel, "GAME OVER");
-                    scorecard.setVisible(true);
-                } else if(turn == rolls_of_dice || checkboxes.size() == dice_in_play) {
+                if (players.get(curr_player).getDetermineScorecard().getUsedScoreCardLines().size() >= players.get(curr_player).getDetermineScorecard().getScorecardLineList().size()
+                    && curr_player == players.size()-1) { // if no more spots
+                    int winner = 0;
+                    int winning_score = -1;
+                    boolean tie = false;
+                    for (int i = 0; i < players.size(); i++) {
+                        if (players.get(i).getDetermineScorecard().getGrandTotal() > winning_score) {
+                            winner = i;
+                            winning_score = players.get(i).getDetermineScorecard().getGrandTotal();
+                        }
+                    }
+                    JOptionPane.showMessageDialog(mainPanel, "GAME OVER! PLAYER"+(winner+1)+" WINS!");
+                    players.get(winner).getScorecard().setVisible(true);
+                } else if(players.get(curr_player).getTurn() == rolls_of_dice || checkboxes.size() == dice_in_play) {
                     rollAgain.setVisible(false);
-                    if (turn == rolls_of_dice)
+                    if (players.get(curr_player).getTurn() == rolls_of_dice)
                         JOptionPane.showMessageDialog(mainPanel, "OUT OF ROLLS");
-                    diceInHand.sortHand();
+                    players.get(curr_player).getHand().sortHand();
                     updateDice();
                     disableCheckBoxes();
-                    scorecard.setVisible(true);
-                    determineScore = new Score(diceInHand.getHand());
-                    scorecard.displayScoreOptions(determineScore.displayScoreOptions());
+                    players.get(curr_player).getScorecard().setVisible(true);
+                    players.get(curr_player).getScorecard().displayScoreOptions(players.get(curr_player).getDetermineScorecard().displayScoreOptions());
                 } else {
-                    if (turn < rolls_of_dice && checkboxes.size() != dice_in_play) {
+                    if (players.get(curr_player).getTurn() < rolls_of_dice && checkboxes.size() != dice_in_play) {
                         for (int i = 0; i < dice_in_play; i++) { // rolls the ones unchecked
                             if (!checkboxes.contains(i)) { // roll!
-                                diceInHand.changeOneDice(i);
+                                players.get(curr_player).getHand().changeOneDice(i);
                             }
                         }
                         updateDice();
-                        turn++;
+                        players.get(curr_player).incrementTurn();
                     }
                 }
             }
@@ -199,12 +203,12 @@ public class GameGUI extends JFrame {
      * displays scorecard from ScorecardGUI class when clicked
      */
     public void createScorecardButton() {
-        JButton scorecardButton = new JButton("SCORECARD");
+        scorecardButton = new JButton("PLAYER"+(curr_player+1)+" SCORECARD");
         scorecardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                scorecard.setVisible(true);
-                scorecard.displayScores();
+                players.get(curr_player).getScorecard().setVisible(true);
+                players.get(curr_player).getScorecard().displayScores();
             }
         });
         scorecardButton.setFont(f1);
@@ -227,11 +231,15 @@ public class GameGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (goHit) {
-                    if (turn == rolls_of_dice || checkboxes.size() == dice_in_play) {
-                        turn = 1; // reset turn
+                    if (players.get(curr_player).getTurn() == rolls_of_dice || checkboxes.size() == dice_in_play) {
+                        players.get(curr_player).setTurn(1); // reset player's turn
                         resetCheckBoxes(); // resets all check boxes
-                        diceInHand = new Hand(); // create new hand
+                        players.get(curr_player).resetHand(); // create new hand
+                        if (curr_player == players.size()-1) {
+                            curr_player = 0; // end of a round. Go back to the first player's turn
+                        } else curr_player++; // round is not over yet. Go to next player's turn
                         updateDice(); // re rolls all dice
+                        scorecardButton.setText("PLAYER"+(curr_player+1)+" SCORECARD");
                         rollAgain.setVisible(true);
                         goHit = false;
                     }
@@ -281,5 +289,7 @@ public class GameGUI extends JFrame {
      */
     public static int getSides_of_dice() { return sides_of_dice; }
 
+    public static Player getCurrPlayerObject() { return players.get(curr_player); }
+    public static int getCurrPlayer() { return curr_player; }
 }
 

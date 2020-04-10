@@ -14,18 +14,18 @@ import java.util.Scanner;
 
 public class Score {
 
-    private static ArrayList<String> colorsList = new ArrayList<String>(Arrays.asList("R", "O", "Y", "G", "B", "I", "V")); // holds values of all colors in order
-    private static ArrayList<Integer> possibleScoresList = new ArrayList<>(); // keeps running values of possible scores
-    private static ArrayList<Integer> scorecardScoreList = new ArrayList<>(); // array for running scores of scorecard
-    static ArrayList<Integer> usedScoreCardLines = new ArrayList<>(); // running list of used card lines
-    private static ArrayList<String> scorecardLineList = new ArrayList<>(); // array for line names of scorecard
-    private static ArrayList<Integer> hand = new ArrayList<>();
+    private ArrayList<String> colorsList = new ArrayList<String>(Arrays.asList("R", "O", "Y", "G", "B", "I", "V")); // holds values of all colors in order
+    private ArrayList<Integer> possibleScoresList = new ArrayList<>(); // keeps running values of possible scores
+    private ArrayList<Integer> scorecardScoreList = new ArrayList<>(); // array for running scores of scorecard
+    private ArrayList<Integer> usedScoreCardLines = new ArrayList<>(); // running list of used card lines
+    private ArrayList<String> scorecardLineList = new ArrayList<>(); // array for line names of scorecard
+    private ArrayList<Integer> hand;
     // values for the scorecard
-    private static Integer subTotal = 0;
-    private static Integer bonus = 0;
-    private static Integer upperTotal = 0;
-    private static Integer lowerTotal = 0;
-    private static Integer grandTotal = 0;
+    private Integer subTotal = 0;
+    private Integer bonus = 0;
+    private Integer upperTotal = 0;
+    private Integer lowerTotal = 0;
+    private Integer grandTotal = 0;
     // values for number of lower scorecard options scored
     private int foundNumPrimaries = 0;
     private int foundNumSecondaries = 0;
@@ -45,33 +45,40 @@ public class Score {
      */
     public Score(ArrayList<Integer> hand) {
         this.hand = hand;
-    }
-
-    /**
-     * creates the lines column of the scorecard
-     */
-    public static void createLinesOfScorecard() {
+        System.out.println("Create lines of scorecard");
         for (int i = 1; i <= GameGUI.getSides_of_dice(); i++)
             scorecardLineList.add(colorsList.get(i-1));
 //            scorecardLineList.add(Integer.toString(i));
         for (int i = 3; i < GameGUI.getDice_in_play(); i++)
             scorecardLineList.add(i + "C");
-        scorecardLineList.add("P");
-        scorecardLineList.add("S");
-        scorecardLineList.add("WP");
-        scorecardLineList.add("CP");
-        scorecardLineList.add("C");
-        scorecardLineList.add("R");
+        scorecardLineList.add("P");  scorecardLineList.add("S"); scorecardLineList.add("WP");
+        scorecardLineList.add("CP"); scorecardLineList.add("C"); scorecardLineList.add("R");
+        System.out.println("Size of the scorecard line list after creating: " + scorecardLineList.size());
+        for (int i = 0; i < scorecardLineList.size(); i++) scorecardScoreList.add(Integer.valueOf(0));
+    }
+
+    /**
+     * creates the lines column of the scorecard
+     */
+    public void createLinesOfScorecard() {
+        System.out.println("Create lines of scorecard");
+        for (int i = 1; i <= GameGUI.getSides_of_dice(); i++)
+            scorecardLineList.add(colorsList.get(i-1));
+//            scorecardLineList.add(Integer.toString(i));
+        for (int i = 3; i < GameGUI.getDice_in_play(); i++)
+            scorecardLineList.add(i + "C");
+        scorecardLineList.add("P");  scorecardLineList.add("S"); scorecardLineList.add("WP");
+        scorecardLineList.add("CP"); scorecardLineList.add("C"); scorecardLineList.add("R");
+        System.out.println("Size of the scorecard line list after creating: " + scorecardLineList.size());
     }
 
     /**
      * this function overwrites any existing scorecard.txt file with
      * a file ready to start a new game
      */
-    public static void createScorecard() {
+    public void createScorecard(int player_num) {
         try {
-            createLinesOfScorecard();
-            BufferedWriter buffer = new BufferedWriter(new FileWriter("./scorecard.txt"));
+            BufferedWriter buffer = new BufferedWriter(new FileWriter("./scorecard" + (player_num+1) + ".txt"));
             for (int i = 0; i < scorecardLineList.size(); i++) {
                 buffer.write(String.format("%s\t\t\t\t%s", scorecardLineList.get(i), 0));
                 buffer.write(System.getProperty("line.separator"));
@@ -86,14 +93,14 @@ public class Score {
      * this function reads the scorecard.txt file
      * stores score values in in a list named scorecardScoreList that aligns with scorecardLineList
      */
-    public static void readScorecard() {
-        File file = new File("./scorecard.txt");
+    public void readScorecard(int player_num) {
+        File file = new File("./scorecard" + (player_num+1) + ".txt");
         try {
             Scanner sc = new Scanner(file);
             for (int i = 0; i < scorecardLineList.size(); i ++) {
                 String readLine = sc.next(); // reads column under 'line'
                 String readScore = sc.next(); // reads column under 'score'
-                try { // try's to set and replace element in array with new value
+                try { // tries to set and replace element in array with new value
                     scorecardScoreList.set(i, Integer.parseInt(readScore));
 
                 } catch (IndexOutOfBoundsException e) { // if element doesn't exist, add value to array
@@ -111,12 +118,15 @@ public class Score {
      * the contents of the scorecardList
      * @param lineCode is the code value for the line column in which the user wants to choose for the scorecard
      */
-    public void writeScorecard(String lineCode) {
+    public void writeScorecard(String lineCode, int player_num) {
         try {
-            BufferedWriter buffer = new BufferedWriter(new FileWriter("./scorecard.txt"));
+            BufferedWriter buffer = new BufferedWriter(new FileWriter("./scorecard" + (player_num+1) + ".txt"));
             int indexToUpdate = scorecardLineList.indexOf(lineCode);
             if (!usedScoreCardLines.contains(indexToUpdate))
                 usedScoreCardLines.add(indexToUpdate);
+            System.out.println("# of scored lines: " + usedScoreCardLines.size());
+            System.out.println("Index to update: " + indexToUpdate);
+            System.out.println("Size of scorecardScoreList: " + scorecardScoreList.size());
             scorecardScoreList.set(indexToUpdate, possibleScoresList.get(indexToUpdate));
             calculateRunningScores();
             for (int i = 0; i < scorecardLineList.size(); i++) {
@@ -132,7 +142,7 @@ public class Score {
     /**
      * this function returns a string rep a scorecard from the scorecardList
      */
-    public static String displayScoreCard() {
+    public String displayScoreCard() {
         String scorecard = ("Line          Score\n");
         scorecard += ("-------------------\n");
         for (int i = 0; i < GameGUI.getSides_of_dice(); i ++)
@@ -528,7 +538,15 @@ public class Score {
      * retrieves scorecardLineList
      * @return scorecardLineList which is the running list of the scorecard line
      */
-    public static ArrayList<String> getScorecardLineList() {
+    public ArrayList<String> getScorecardLineList() {
         return scorecardLineList;
+    }
+
+    public ArrayList<Integer> getUsedScoreCardLines() {
+        return usedScoreCardLines;
+    }
+
+    public Integer getGrandTotal() {
+        return grandTotal;
     }
 }
