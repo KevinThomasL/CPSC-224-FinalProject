@@ -41,7 +41,7 @@ public class OptionsGUI extends JFrame {
         setLocation(350, 180);
         setVisible(true);
 
-        String[] sideValues = {"1", "2"};
+        String[] sideValues = {"1", "2", "3", "4", "5", "6", "7", "8"};
         playersInput.setModel(new DefaultComboBoxModel<String>(sideValues));
         String[] diceValues = {"7", "10", "12"};
         diceInput.setModel(new DefaultComboBoxModel<String>(diceValues));

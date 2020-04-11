@@ -44,7 +44,7 @@ public class ScorecardGUI extends JFrame{
     public void displayScores() {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(180, 550);
-        scores.setText(Score.displayScoreCard());
+        scores.setText(GameGUI.getCurrPlayerObject().getDetermineScorecard().displayScoreCard());
         lineText.setVisible(false);
         userInput.setVisible(false);
         GOButton.setVisible(false);
@@ -66,8 +66,14 @@ public class ScorecardGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 lineCode = userInput.getText();
-                if (Score.getScorecardLineList().contains(lineCode)) {
-                    GameGUI.determineScore.writeScorecard(lineCode);
+                System.out.println("Action detected");
+                System.out.println("User inputted line: " + lineCode);
+                for (String line: GameGUI.getCurrPlayerObject().getDetermineScorecard().getScorecardLineList())
+                    System.out.println("line: " + line);
+                System.out.println("Number of lines: "+ GameGUI.getCurrPlayerObject().getDetermineScorecard().getScorecardLineList().size());
+                if (GameGUI.getCurrPlayerObject().getDetermineScorecard().getScorecardLineList().contains(lineCode)) {
+                    System.out.println("Conditional met");
+                    GameGUI.getCurrPlayerObject().getDetermineScorecard().writeScorecard(lineCode, GameGUI.getCurrPlayer());
                     GameGUI.goHit = true;
                     setVisible(false);
                 }
