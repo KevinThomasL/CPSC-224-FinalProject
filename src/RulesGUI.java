@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * This class represents the RulesGUI.
@@ -11,8 +10,17 @@ import java.awt.*;
  */
 
 public class RulesGUI extends JFrame {
+    /**
+     * JPanel for the mainPanel of the rulebook
+     */
     private JPanel mainPanel;
+    /**
+     * Text for all of the rules of the game
+     */
     private JTextPane YAHTZEERULESTheObjectiveTextPane;
+    /**
+     * Another textfield for rules of the game to be displayed in
+     */
     private JTextField textField1;
 
     /**
@@ -24,11 +32,8 @@ public class RulesGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-//        this.pack();
-//        setVisible(true);
-//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setSize(700, 750);
+        setLocation(350, 170);
+        setVisible(true);
     }
 }

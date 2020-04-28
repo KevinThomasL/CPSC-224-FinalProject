@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,11 +13,29 @@ import java.awt.event.ActionListener;
  */
 
 public class ScorecardGUI extends JFrame{
+    /**
+     * JPanel for the mainPanel of the game
+     */
     private JPanel mainPanel;
+    /**
+     * TextPane that displays the player's scores
+     */
     private JTextPane scores;
+    /**
+     * TextField for a line of text
+     */
     private JTextField lineText;
+    /**
+     * When clicked, the player's scoring preference is recorded
+     */
     private JButton GOButton;
+    /**
+     * The user's preference on which line they want to score on
+     */
     private JTextField userInput;
+    /**
+     * Text of userInput
+     */
     private String lineCode = "";
 
     /**
@@ -30,9 +47,8 @@ public class ScorecardGUI extends JFrame{
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
-        setVisible(true);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2 + dim.width/4, dim.height/2-this.getSize().height/2 - dim.height/4);
+        setSize(180, 450);
+        setLocation(  1075, 65);
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         lineText.setVisible(false);

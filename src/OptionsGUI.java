@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,18 +13,57 @@ import java.awt.event.ActionListener;
  */
 
 public class OptionsGUI extends JFrame {
+    /**
+     * JPanel for the main panel of the OptionsGUI
+     */
     private JPanel mainPanel;
+    /**
+     * label to let the player know that they are in the configurations frame
+     */
     private JLabel configuration;
+    /**
+     * label to prompt user to select the number of players to be in the game
+     */
     private JLabel numPlayers;
+    /**
+     * label used to prompt the user to select the number of dice in play
+     */
     private JLabel diceInPlay;
+    /**
+     * label used to prompt the user to select the number of dice in play
+     */
     private JLabel rollsInPlay;
+    /**
+     * JLabel that saved the user configurations when clicked and creates a GameGUI object
+     */
     private JButton submit;
+    /**
+     * ComboBox for the number of dice in play
+     */
     private JComboBox diceInput;
+    /**
+     * Combo box for the number of players in the game
+     */
     private JComboBox playersInput;
+    /**
+     * Combo Box for the number of rolls per turn
+     */
     private JComboBox rollsInput;
+    /**
+     * dice in play
+     */
     private int dice_in_play = 5;
+    /**
+     * number of sides on a dice
+     */
     private int sides_in_play = 7;
+    /**
+     * number of rolls per turn
+     */
     private int rolls_in_play = 2;
+    /**
+     * number of players in the game
+     */
     private int num_of_players = 1;
 
     /**
@@ -38,12 +76,9 @@ public class OptionsGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
         mainPanel.setBorder(new EmptyBorder(10,10,10,10));
-        this.pack();
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-//        setVisible(true);
-//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2 - dim.height/4);
+        setSize(700, 400);
+        setLocation(350, 180);
+        setVisible(true);
 
         String[] sideValues = {"1", "2", "3", "4", "5", "6", "7", "8"};
         playersInput.setModel(new DefaultComboBoxModel<String>(sideValues));
@@ -55,6 +90,7 @@ public class OptionsGUI extends JFrame {
         num_of_players = Integer.parseInt((String) playersInput.getSelectedItem());
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());
         rolls_in_play = Integer.parseInt((String) rollsInput.getSelectedItem());
+        System.out.println("Options created");
 
         submit.addActionListener(new ActionListener() {
             @Override
@@ -75,31 +111,5 @@ public class OptionsGUI extends JFrame {
         GameGUI newGame = new GameGUI("RAINBOW YAHTZEE", num_of_players, dice_in_play, rolls_in_play);
         dispose();
     }
-
-    /**
-     * returns the number of players in game
-     * @return players in game
-     */
-    public int getNum_of_players() {
-        return num_of_players;
-    }
-
-    /**
-     * returns the number of dice used in game
-     * @return dice in game
-     */
-    public int getDice_in_play() { return dice_in_play; }
-
-    /**
-     * returns the number of sides of dice in game
-     * @return sides of dice
-     */
-    public int getSides_in_play() { return sides_in_play; }
-
-    /**
-     * returns the number of rolls per turn
-     * @return rolls per turn in game
-     */
-    public int getRolls_in_play() { return rolls_in_play; }
 
 }

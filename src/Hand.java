@@ -18,6 +18,7 @@ public class Hand {
 
     /**
      * DVC of the Hand class initially creates a randomly rolled hand of dice in play if the hand is empty
+     * @param  diceInPlay the number of dice in play
      */
     public Hand(int diceInPlay) {
         dice_in_play = diceInPlay;

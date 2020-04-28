@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,8 +13,17 @@ import java.awt.event.ActionListener;
  */
 // adding comment to test the new branch
 public class WelcomePageGUI extends JFrame{
+    /**
+     * JPanel for the welcome page
+     */
     private JPanel mainPanel;
+    /**
+     *  JButton that opens the rulebook when clicked
+     */
     private JButton RULESButton;
+    /**
+     * JButton that creates an option JFrame when clicked
+     */
     private JButton STARTGAMEButton;
 
     /**
@@ -26,14 +34,11 @@ public class WelcomePageGUI extends JFrame{
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
         this.pack();
-//        this.pack();
-//        this.setLocationRelativeTo(null);
-//        this.setVisible(true);
+        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+        setSize(700, 100);
+        setLocation(350, 65);
         setVisible(true);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2 - dim.height/4);
 
         // RULES
         RULESButton.addActionListener(new ActionListener() {
@@ -52,6 +57,10 @@ public class WelcomePageGUI extends JFrame{
         });
     }
 
+    /**
+     * Main function for the entire program
+     * @param args
+     */
     public static void main(String[] args) {
         JFrame frame = new WelcomePageGUI("RAINBOW YAHTZEE");
         frame.setVisible(true);

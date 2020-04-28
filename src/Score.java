@@ -36,6 +36,7 @@ public class Score {
     /**
      * EVC that creates a variable of the dice in hand
      * @param hand represents the dice faces rolled in hand
+     * @param diceInPlay the number of dice in play
      */
     public Score(ArrayList<Integer> hand, int diceInPlay) {
         this.hand = hand;
@@ -79,6 +80,7 @@ public class Score {
     /**
      * this function overwrites any existing scorecard.txt file with
      * a file ready to start a new game
+     * @param player_num the number of players in the game
      */
     public void createScorecard(int player_num) {
         try {
@@ -96,6 +98,7 @@ public class Score {
     /**
      * this function reads the scorecard.txt file
      * stores score values in in a list named scorecardScoreList that aligns with scorecardLineList
+     * @param player_num the number of players in the game
      */
     public void readScorecard(int player_num) {
         File file = new File("./scorecard" + (player_num+1) + ".txt");
@@ -121,6 +124,7 @@ public class Score {
      * this function overwrites any existing scorecard.txt file with
      * the contents of the scorecardList
      * @param lineCode is the code value for the line column in which the user wants to choose for the scorecard
+     * @param player_num the number of players in the game
      */
     public void writeScorecard(String lineCode, int player_num) {
         try {
@@ -198,6 +202,7 @@ public class Score {
 
     /**
      * represents the upper score card of the game Yahtzee
+     * @param dice_in_play the number of dice in play
      * @return a String of the upperScoreCard possible options
      */
     private String upperScoreCard(int dice_in_play) {
@@ -543,10 +548,18 @@ public class Score {
         return scorecardLineList;
     }
 
+    /**
+     * getter function for the card lines that have been used
+     * @return usedScoreCardLines
+     */
     public ArrayList<Integer> getUsedScoreCardLines() {
         return usedScoreCardLines;
     }
 
+    /**
+     * getter function for the grandtotal
+     * @return grandTotal
+     */
     public Integer getGrandTotal() {
         return grandTotal;
     }

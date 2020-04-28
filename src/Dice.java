@@ -10,8 +10,13 @@ import java.util.Random;
  */
 
 public class Dice {
-
+    /**
+     * dice_faces is the number of faces on each die
+     */
     private static int dice_faces;
+    /**
+     * the side up of the die that was rolled
+     */
     private static int face_rolled;
 
     /**
