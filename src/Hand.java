@@ -13,13 +13,14 @@ import java.util.Random;
 
 public class Hand {
 
-    private static int dice_in_play = GameGUI.getDice_in_play();
+    private int dice_in_play;
     private static ArrayList<Integer> random_hand = new ArrayList<Integer>();
 
     /**
      * DVC of the Hand class initially creates a randomly rolled hand of dice in play if the hand is empty
      */
-    public Hand() {
+    public Hand(int diceInPlay) {
+        dice_in_play = diceInPlay;
         if (!random_hand.isEmpty())
             random_hand.clear();
         for (int i = 0; i < dice_in_play; i++)
@@ -31,7 +32,7 @@ public class Hand {
      *
      * @return dice_in_play - the numbers of dice being rolled
      */
-    public static int getNumDice() {
+    public int getNumDice() {
         return dice_in_play;
     }
 

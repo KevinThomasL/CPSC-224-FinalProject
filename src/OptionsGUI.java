@@ -22,10 +22,10 @@ public class OptionsGUI extends JFrame {
     private JComboBox diceInput;
     private JComboBox playersInput;
     private JComboBox rollsInput;
-    private static int dice_in_play = 5;
-    private static int sides_in_play = 7;
-    private static int rolls_in_play = 2;
-    private static int num_of_players = 1;
+    private int dice_in_play = 5;
+    private int sides_in_play = 7;
+    private int rolls_in_play = 2;
+    private int num_of_players = 1;
 
     /**
      * DVC creates drop down combo menus for user to interact with
@@ -51,6 +51,7 @@ public class OptionsGUI extends JFrame {
         num_of_players = Integer.parseInt((String) playersInput.getSelectedItem());
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());
         rolls_in_play = Integer.parseInt((String) rollsInput.getSelectedItem());
+        System.out.println("Options created");
 
         submit.addActionListener(new ActionListener() {
             @Override
@@ -68,7 +69,7 @@ public class OptionsGUI extends JFrame {
         num_of_players = Integer.parseInt((String) playersInput.getSelectedItem());
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());
         rolls_in_play = Integer.parseInt((String) rollsInput.getSelectedItem());
-        GameGUI newGame = new GameGUI("RAINBOW YAHTZEE");
+        GameGUI newGame = new GameGUI("RAINBOW YAHTZEE", num_of_players, dice_in_play, rolls_in_play);
         dispose();
     }
 
@@ -76,7 +77,7 @@ public class OptionsGUI extends JFrame {
      * returns the number of players in game
      * @return players in game
      */
-    public static int getNum_of_players() {
+    public int getNum_of_players() {
         return num_of_players;
     }
 
@@ -84,18 +85,18 @@ public class OptionsGUI extends JFrame {
      * returns the number of dice used in game
      * @return dice in game
      */
-    public static int getDice_in_play() { return dice_in_play; }
+    public int getDice_in_play() { return dice_in_play; }
 
     /**
      * returns the number of sides of dice in game
      * @return sides of dice
      */
-    public static int getSides_in_play() { return sides_in_play; }
+    public int getSides_in_play() { return sides_in_play; }
 
     /**
      * returns the number of rolls per turn
      * @return rolls per turn in game
      */
-    public static int getRolls_in_play() { return rolls_in_play; }
+    public int getRolls_in_play() { return rolls_in_play; }
 
 }

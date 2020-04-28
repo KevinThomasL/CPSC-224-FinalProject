@@ -18,10 +18,10 @@ import java.util.concurrent.TimeUnit;
 
 public class GameGUI extends JFrame {
 
-    private static int num_of_players = OptionsGUI.getNum_of_players();
-    private static int dice_in_play = OptionsGUI.getDice_in_play();
-    private static int sides_of_dice = OptionsGUI.getSides_in_play();
-    private static int rolls_of_dice = OptionsGUI.getRolls_in_play();
+    private int num_of_players;
+    private int dice_in_play;
+    private static int sides_of_dice = 7;
+    private int rolls_of_dice;
     private JPanel mainPanel;
     private static ArrayList<Integer> checkboxes = new ArrayList<Integer>();
     private GridBagConstraints c = new GridBagConstraints();
@@ -39,8 +39,11 @@ public class GameGUI extends JFrame {
      * DVC creates the panel with dice, checkboxes, and buttons
      * @param title of the frame
      */
-    public GameGUI (String title) {
+    public GameGUI (String title, int numOfPlayers, int diceInPlay, int rollsOfDice) {
         super(title);
+        num_of_players = numOfPlayers;
+        dice_in_play = diceInPlay;
+        rolls_of_dice = rollsOfDice;
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
         determineFrameSize();
@@ -50,14 +53,8 @@ public class GameGUI extends JFrame {
         diceLBZ = new JLabel[dice_in_play];
         checkLBZ = new JCheckBox[dice_in_play];
 
-        num_of_players = OptionsGUI.getNum_of_players();
-        dice_in_play = OptionsGUI.getDice_in_play();
-        sides_of_dice = OptionsGUI.getSides_in_play();
-        rolls_of_dice = OptionsGUI.getRolls_in_play();
-        diceLBZ = new JLabel[dice_in_play];
-        checkLBZ = new JCheckBox[dice_in_play];
         for (int i = 0; i < num_of_players; i++) { // initialize player objects
-            players.add(new Player(rolls_of_dice, "PLAYER"+(i+1)+" SCORECARD", i));
+            players.add(new Player(rolls_of_dice, "PLAYER"+(i+1)+" SCORECARD", i, dice_in_play));
         }
 
         rollDice(); // create all dice
@@ -164,6 +161,8 @@ public class GameGUI extends JFrame {
                 findSelectedBoxes();
                 if (players.get(curr_player).getTurn() == rolls_of_dice || checkboxes.size() == dice_in_play) {
                     rollAgain.setVisible(false);
+//                    if (players.get(curr_player).getTurn() == rolls_of_dice)
+//                        JOptionPane.showMessageDialog(mainPanel, "OUT OF ROLLS");
                     players.get(curr_player).getHand().sortHand();
                     updateDice();
                     disableCheckBoxes();
@@ -328,7 +327,7 @@ public class GameGUI extends JFrame {
      * returns number of dice being played with
      * @return dice in play
      */
-    public static int getDice_in_play() { return dice_in_play; }
+    public int getDice_in_play() { return dice_in_play; }
 
     /**
      * returns number of sides of die in game
