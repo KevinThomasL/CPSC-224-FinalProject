@@ -24,6 +24,7 @@ public class Score {
     private Integer subTotal = 0, bonus = 0, upperTotal = 0, lowerTotal = 0, grandTotal = 0;
     // values for number of lower scorecard options scored
     private int foundNumPrimaries = 0, foundNumSecondaries = 0, foundNumWarm = 0, foundNumCold = 0;
+    private int dice_in_play;
 
     /**
      * DVC that outputs to user that they have an empty hand
@@ -36,8 +37,9 @@ public class Score {
      * EVC that creates a variable of the dice in hand
      * @param hand represents the dice faces rolled in hand
      */
-    public Score(ArrayList<Integer> hand) {
+    public Score(ArrayList<Integer> hand, int diceInPlay) {
         this.hand = hand;
+        dice_in_play = diceInPlay;
         for (int i = 1; i <= 2; i++) // GameGUI.getSides_of_dice()
             scorecardLineList.add(colorsList.get(i-1));
 //        for (int i = 3; i < GameGUI.getDice_in_play(); i++)
@@ -168,7 +170,7 @@ public class Score {
      */
     public String displayScoreOptions() {
         possibleScoresList.clear();
-        return upperScoreCard();
+        return upperScoreCard(dice_in_play);
 //       return upperScoreCard() + lowerScoreCard();
     }
 
@@ -199,11 +201,11 @@ public class Score {
      * represents the upper score card of the game Yahtzee
      * @return a String of the upperScoreCard possible options
      */
-    private String upperScoreCard() {
+    private String upperScoreCard(int dice_in_play) {
         String upperScoreCard = "";
         for (int dieValue = 1; dieValue <= 2; dieValue++) { //GameGUI.getSides_of_dice()
             int currentCount = 0;
-            for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+            for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
                 if (hand.get(diePosition) == dieValue)
                     currentCount++;
             }
@@ -300,7 +302,7 @@ public class Score {
      */
     private int totalAllDice() {
         int total = 0;
-        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++)
+        for (int diePosition = 0; diePosition < dice_in_play; diePosition++)
         {
             total += hand.get(diePosition);
         }
@@ -316,7 +318,7 @@ public class Score {
         int currentCount;
         for (int dieValue = 1; dieValue <= GameGUI.getSides_of_dice(); dieValue++) {
             currentCount = 0;
-            for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+            for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
                 if (hand.get(diePosition) == dieValue)
                     currentCount++;
             }
@@ -339,7 +341,7 @@ public class Score {
         boolean isBlue = false;
         int blueCount = 0;
 
-        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+        for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
             if (hand.get(diePosition) == 3) {
                 isYellow = true;
                 yellowCount += 1;
@@ -381,7 +383,7 @@ public class Score {
         boolean isViolet = false;
         int violetCount = 0;
 
-        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+        for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
             if (hand.get(diePosition) == 4) {
                 isGreen = true;
                 greenCount += 1;
@@ -423,7 +425,7 @@ public class Score {
         boolean isYellow = false;
         int yellowCount = 0;
 
-        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+        for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
             if (hand.get(diePosition) == 1) {
                 isRed = true;
                 redCount += 1;
@@ -467,7 +469,7 @@ public class Score {
         boolean isViolet = false;
         int violetCount = 0;
 
-        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+        for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
             if (hand.get(diePosition) == 4) {
                 isGreen = true;
                 greenCount += 1;
@@ -511,7 +513,7 @@ public class Score {
         boolean isIndigo = false;
         boolean isViolet = false;
 
-        for (int diePosition = 0; diePosition < GameGUI.getDice_in_play(); diePosition++) {
+        for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
             if (hand.get(diePosition) == 1)
                 isRed = true;
             if (hand.get(diePosition) == 2)
