@@ -50,10 +50,12 @@ public class GameGUI extends JFrame {
         diceLBZ = new JLabel[dice_in_play];
         checkLBZ = new JCheckBox[dice_in_play];
 
-        int num_of_players = OptionsGUI.getNum_of_players();
-        int dice_in_play = OptionsGUI.getDice_in_play();
-        int sides_of_dice = OptionsGUI.getSides_in_play();
-        int rolls_of_dice = OptionsGUI.getRolls_in_play();
+        num_of_players = OptionsGUI.getNum_of_players();
+        dice_in_play = OptionsGUI.getDice_in_play();
+        sides_of_dice = OptionsGUI.getSides_in_play();
+        rolls_of_dice = OptionsGUI.getRolls_in_play();
+        diceLBZ = new JLabel[dice_in_play];
+        checkLBZ = new JCheckBox[dice_in_play];
         for (int i = 0; i < num_of_players; i++) { // initialize player objects
             players.add(new Player(rolls_of_dice, "PLAYER"+(i+1)+" SCORECARD", i));
         }
@@ -162,8 +164,6 @@ public class GameGUI extends JFrame {
                 findSelectedBoxes();
                 if (players.get(curr_player).getTurn() == rolls_of_dice || checkboxes.size() == dice_in_play) {
                     rollAgain.setVisible(false);
-//                    if (players.get(curr_player).getTurn() == rolls_of_dice)
-//                        JOptionPane.showMessageDialog(mainPanel, "OUT OF ROLLS");
                     players.get(curr_player).getHand().sortHand();
                     updateDice();
                     disableCheckBoxes();
