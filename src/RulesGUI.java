@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * This class represents the RulesGUI.
@@ -31,9 +32,8 @@ public class RulesGUI extends JFrame {
         super(title);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
-        this.pack();
         setSize(700, 750);
-        setLocation(350, 170);
-        setVisible(true);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 }

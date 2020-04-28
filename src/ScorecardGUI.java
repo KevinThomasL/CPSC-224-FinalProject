@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,11 +47,12 @@ public class ScorecardGUI extends JFrame{
         super(title);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setContentPane(mainPanel);
-        this.pack();
-        setSize(180, 450);
-        setLocation(  1075, 65);
-        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
+        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+        setSize(180, 650);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(GameGUI.width() + this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setVisible(true);
         lineText.setVisible(false);
         userInput.setVisible(false);
         GOButton.setVisible(false);
@@ -61,7 +63,10 @@ public class ScorecardGUI extends JFrame{
      */
     public void displayScores() {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setSize(180, 550);
+        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+        setSize(180, 650);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(GameGUI.width() + this.getSize().width/2, dim.height/2-this.getSize().height/2);
         scores.setText(GameGUI.getCurrPlayerObject().getDetermineScorecard().displayScoreCard());
         lineText.setVisible(false);
         userInput.setVisible(false);

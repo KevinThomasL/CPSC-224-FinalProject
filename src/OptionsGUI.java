@@ -75,9 +75,9 @@ public class OptionsGUI extends JFrame {
         super(title);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
-        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
         setSize(700, 400);
-        setLocation(350, 180);
+        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+        setLocationRelativeTo(null);
         setVisible(true);
 
         String[] sideValues = {"1", "2", "3", "4", "5", "6", "7", "8"};

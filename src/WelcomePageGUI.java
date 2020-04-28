@@ -34,10 +34,12 @@ public class WelcomePageGUI extends JFrame{
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        this.pack();
+
+        this.setSize(700, 100);
         mainPanel.setBorder(new EmptyBorder(10,10,10,10));
-        setSize(700, 100);
-        setLocation(350, 65);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+
         setVisible(true);
 
         // RULES

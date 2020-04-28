@@ -22,6 +22,7 @@ public class GameGUI extends JFrame {
     private static int sides_of_dice = 7;
     private int rolls_of_dice;
     private JPanel mainPanel;
+    private static int width = 0;
     private static ArrayList<Integer> checkboxes = new ArrayList<Integer>();
     private GridBagConstraints c = new GridBagConstraints();
     private Font f1 = new Font("Courier New", Font.PLAIN,  14);
@@ -48,9 +49,14 @@ public class GameGUI extends JFrame {
         rolls_of_dice = rollsOfDice;
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        width = this.getSize().width;
+
         determineFrameSize();
+        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+        setLocationRelativeTo(null);
         setVisible(true);
-        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
         c.fill = GridBagConstraints.HORIZONTAL;
         diceLBZ = new JLabel[dice_in_play];
         checkLBZ = new JCheckBox[dice_in_play];
@@ -72,13 +78,10 @@ public class GameGUI extends JFrame {
     private void determineFrameSize() {
         if (dice_in_play == 7) {
             setSize(700, 200);
-            setLocation(350, 180);
         } else if (dice_in_play == 10) {
             setSize(950, 200);
-            setLocation(200, 180);
         } else {
             setSize(1050, 200);
-            setLocation(150, 180);
         }
     }
 
@@ -326,6 +329,14 @@ public class GameGUI extends JFrame {
         Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         icon = new ImageIcon(image, icon.getDescription());
         return icon;
+    }
+
+    /**
+     * gets width
+     * @return width!
+     */
+    public static int width() {
+        return width;
     }
 
     /**
