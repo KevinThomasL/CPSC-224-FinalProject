@@ -66,13 +66,7 @@ public class ScorecardGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 lineCode = userInput.getText();
-                System.out.println("Action detected");
-                System.out.println("User inputted line: " + lineCode);
-                for (String line: GameGUI.getCurrPlayerObject().getDetermineScorecard().getScorecardLineList())
-                    System.out.println("line: " + line);
-                System.out.println("Number of lines: "+ GameGUI.getCurrPlayerObject().getDetermineScorecard().getScorecardLineList().size());
                 if (GameGUI.getCurrPlayerObject().getDetermineScorecard().getScorecardLineList().contains(lineCode)) {
-                    System.out.println("Conditional met");
                     GameGUI.getCurrPlayerObject().getDetermineScorecard().writeScorecard(lineCode, GameGUI.getCurrPlayer());
                     GameGUI.goHit = true;
                     setVisible(false);

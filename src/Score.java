@@ -21,16 +21,9 @@ public class Score {
     private ArrayList<String> scorecardLineList = new ArrayList<>(); // array for line names of scorecard
     private ArrayList<Integer> hand;
     // values for the scorecard
-    private Integer subTotal = 0;
-    private Integer bonus = 0;
-    private Integer upperTotal = 0;
-    private Integer lowerTotal = 0;
-    private Integer grandTotal = 0;
+    private Integer subTotal = 0, bonus = 0, upperTotal = 0, lowerTotal = 0, grandTotal = 0;
     // values for number of lower scorecard options scored
-    private int foundNumPrimaries = 0;
-    private int foundNumSecondaries = 0;
-    private int foundNumWarm = 0;
-    private int foundNumCold = 0;
+    private int foundNumPrimaries = 0, foundNumSecondaries = 0, foundNumWarm = 0, foundNumCold = 0;
 
     /**
      * DVC that outputs to user that they have an empty hand
@@ -64,6 +57,21 @@ public class Score {
 //            scorecardLineList.add(i + "C");
 //        scorecardLineList.add("P");  scorecardLineList.add("S"); scorecardLineList.add("WP");
 //        scorecardLineList.add("CP"); scorecardLineList.add("C"); scorecardLineList.add("RB");
+    }
+
+    /**
+     * resets values
+     */
+    public void reset() {
+        possibleScoresList.clear();
+        scorecardScoreList.clear();
+        usedScoreCardLines.clear();
+        scorecardLineList.clear();
+        hand.clear();
+        // values for the scorecard
+        Integer subTotal = 0, bonus = 0, upperTotal = 0, lowerTotal = 0, grandTotal = 0;
+        // values for number of lower scorecard options scored
+        int foundNumPrimaries = 0, foundNumSecondaries = 0, foundNumWarm = 0, foundNumCold = 0;
     }
 
     /**

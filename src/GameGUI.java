@@ -3,6 +3,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -149,15 +150,15 @@ public class GameGUI extends JFrame {
      * stage of game user is in
      */
     public void createRollButton() {
-        rollAgain = new JButton("ROLL");
+        rollAgain = new JButton("ROLLS " + rolls_of_dice);
         rollAgain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 findSelectedBoxes();
                 if (players.get(curr_player).getTurn() == rolls_of_dice || checkboxes.size() == dice_in_play) {
                     rollAgain.setVisible(false);
-                    if (players.get(curr_player).getTurn() == rolls_of_dice)
-                        JOptionPane.showMessageDialog(mainPanel, "OUT OF ROLLS");
+//                    if (players.get(curr_player).getTurn() == rolls_of_dice)
+//                        JOptionPane.showMessageDialog(mainPanel, "OUT OF ROLLS");
                     players.get(curr_player).getHand().sortHand();
                     updateDice();
                     disableCheckBoxes();
@@ -171,6 +172,7 @@ public class GameGUI extends JFrame {
                             }
                         }
                         updateDice();
+                        rollAgain.setText("ROLLS " + (rolls_of_dice - players.get(curr_player).getTurn()));
                         players.get(curr_player).incrementTurn();
                     }
                 }
@@ -243,6 +245,7 @@ public class GameGUI extends JFrame {
                         scorecardButton.setText("PLAYER"+(curr_player+1)+" SCORECARD");
                         players.get(curr_player).getScorecard().setVisible(false);
                         rollAgain.setVisible(true);
+                        rollAgain.setText("ROLLS " + rolls_of_dice);
                         goHit = false;
                     }
                 } else {
@@ -263,19 +266,20 @@ public class GameGUI extends JFrame {
         mainPanel.add(nextTurnButton, c);
     }
 
+    /**
+     * determines whether to play again or not
+     */
     private void playAgain() {
-//        final JOptionPane optionPane = new JOptionPane("PLAY AGAIN?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
         int dialogButton = JOptionPane.showConfirmDialog (null, "PLAY AGAIN?","RAINBOW YAHTZEE",JOptionPane.YES_NO_OPTION);
-
         if (dialogButton == JOptionPane.YES_OPTION) {
             for (int i = 0; i < players.size(); i++) { // reset game
-                players.get(i).getDetermineScorecard().createScorecard(i);
-                players.get(i).getDetermineScorecard().readScorecard(i);
-                players.get(i).getDetermineScorecard().getUsedScoreCardLines().clear();
                 players.get(curr_player).getScorecard().setVisible(false);
-                OptionsGUI options = new OptionsGUI("OPTIONS");
-                dispose();
+                players.get(i).getDetermineScorecard().reset();
             }
+            players.clear();
+            curr_player = 0;
+            OptionsGUI options = new OptionsGUI("OPTIONS");
+            this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         } else {
             System.exit(0);
         }
