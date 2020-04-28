@@ -59,7 +59,7 @@ public class WelcomePageGUI extends JFrame{
 
     /**
      * Main function for the entire program
-     * @param args
+     * @param args the arguments
      */
     public static void main(String[] args) {
         JFrame frame = new WelcomePageGUI("RAINBOW YAHTZEE");

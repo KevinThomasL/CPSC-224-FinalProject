@@ -70,7 +70,7 @@ public class Hand {
     /**
      * Overrides the toString to output the hand of dice
      *
-     * @return
+     * @return printedHead
      */
     @Override
     public String toString() {

@@ -146,6 +146,7 @@ public class Score {
 
     /**
      * this function returns a string rep a scorecard from the scorecardList
+     * @return scorecard
      */
     public String displayScoreCard() {
         String scorecard = ("Line          Score\n");
@@ -171,6 +172,7 @@ public class Score {
     /**
      * displays scorecard options for user to choose from
      * based on the hand that the user has
+     * @return upperScoreCard(dice_in_play) + lowerScoreCard()
      */
     public String displayScoreOptions() {
         possibleScoresList.clear();
