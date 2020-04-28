@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
  *
  * @author Nicole, Kevin, Eric, Jackson
  */
-// adding comment to test the new branch
 public class WelcomePageGUI extends JFrame{
     /**
      * JPanel for the welcome page
