@@ -41,9 +41,6 @@ public class GameGUI extends JFrame {
      */
     public GameGUI (String title) {
         super(title);
-        for (int i = 0; i < num_of_players; i++) { // initialize player objects
-            players.add(new Player(rolls_of_dice, "PLAYER"+(i+1)+" SCORECARD", i));
-        }
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
         determineFrameSize();
@@ -52,6 +49,14 @@ public class GameGUI extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         diceLBZ = new JLabel[dice_in_play];
         checkLBZ = new JCheckBox[dice_in_play];
+
+        int num_of_players = OptionsGUI.getNum_of_players();
+        int dice_in_play = OptionsGUI.getDice_in_play();
+        int sides_of_dice = OptionsGUI.getSides_in_play();
+        int rolls_of_dice = OptionsGUI.getRolls_in_play();
+        for (int i = 0; i < num_of_players; i++) { // initialize player objects
+            players.add(new Player(rolls_of_dice, "PLAYER"+(i+1)+" SCORECARD", i));
+        }
 
         rollDice(); // create all dice
         createCheckBoxes(); // create check boxes
@@ -269,11 +274,11 @@ public class GameGUI extends JFrame {
     /**
      * determines whether to play again or not
      */
-    private void playAgain() {
+    public void playAgain() {
         int dialogButton = JOptionPane.showConfirmDialog (null, "PLAY AGAIN?","RAINBOW YAHTZEE",JOptionPane.YES_NO_OPTION);
         if (dialogButton == JOptionPane.YES_OPTION) {
             for (int i = 0; i < players.size(); i++) { // reset game
-                players.get(curr_player).getScorecard().setVisible(false);
+                players.get(i).getScorecard().setVisible(false);
                 players.get(i).getDetermineScorecard().reset();
             }
             players.clear();
