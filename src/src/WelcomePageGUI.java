@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,14 +25,11 @@ public class WelcomePageGUI extends JFrame{
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
         this.pack();
-//        this.pack();
-//        this.setLocationRelativeTo(null);
-//        this.setVisible(true);
+        mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+        setSize(700, 100);
+        setLocation(350, 65);
         setVisible(true);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2 - dim.height/4);
 
         // RULES
         RULESButton.addActionListener(new ActionListener() {

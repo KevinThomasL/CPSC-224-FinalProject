@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,12 +37,9 @@ public class OptionsGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setContentPane(mainPanel);
         mainPanel.setBorder(new EmptyBorder(10,10,10,10));
-        this.pack();
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-//        setVisible(true);
-//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2 - dim.height/4);
+        setSize(700, 400);
+        setLocation(350, 180);
+        setVisible(true);
 
         String[] sideValues = {"1", "2", "3", "4", "5", "6", "7", "8"};
         playersInput.setModel(new DefaultComboBoxModel<String>(sideValues));
@@ -55,6 +51,7 @@ public class OptionsGUI extends JFrame {
         num_of_players = Integer.parseInt((String) playersInput.getSelectedItem());
         dice_in_play = Integer.parseInt((String) diceInput.getSelectedItem());
         rolls_in_play = Integer.parseInt((String) rollsInput.getSelectedItem());
+        System.out.println("Options created");
 
         submit.addActionListener(new ActionListener() {
             @Override

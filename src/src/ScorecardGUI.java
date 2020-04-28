@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,9 +29,8 @@ public class ScorecardGUI extends JFrame{
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
-        setVisible(true);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2 + dim.width/4, dim.height/2-this.getSize().height/2 - dim.height/4);
+        setSize(180, 450);
+        setLocation(  1075, 65);
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         lineText.setVisible(false);
