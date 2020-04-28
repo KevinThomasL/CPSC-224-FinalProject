@@ -40,25 +40,25 @@ public class Score {
     public Score(ArrayList<Integer> hand, int diceInPlay) {
         this.hand = hand;
         dice_in_play = diceInPlay;
-        for (int i = 1; i <= 2; i++) // GameGUI.getSides_of_dice()
+        for (int i = 1; i <= GameGUI.getSides_of_dice(); i++)
             scorecardLineList.add(colorsList.get(i-1));
-//        for (int i = 3; i < GameGUI.getDice_in_play(); i++)
-//            scorecardLineList.add(i + "C");
-//        scorecardLineList.add("P");  scorecardLineList.add("S"); scorecardLineList.add("WP");
-//        scorecardLineList.add("CP"); scorecardLineList.add("C"); scorecardLineList.add("RB");
-//        for (int i = 0; i < scorecardLineList.size(); i++) scorecardScoreList.add(Integer.valueOf(0));
+        for (int i = 3; i < diceInPlay; i++)
+            scorecardLineList.add(i + "C");
+        scorecardLineList.add("P");  scorecardLineList.add("S"); scorecardLineList.add("WP");
+        scorecardLineList.add("CP"); scorecardLineList.add("C"); scorecardLineList.add("RB");
+        for (int i = 0; i < scorecardLineList.size(); i++) scorecardScoreList.add(Integer.valueOf(0));
     }
 
     /**
      * creates the lines column of the scorecard
      */
     public void createLinesOfScorecard() {
-        for (int i = 1; i <= 2; i++) // GameGUI.getSides_of_dice()
+        for (int i = 1; i <= GameGUI.getSides_of_dice(); i++)
             scorecardLineList.add(colorsList.get(i-1));
-//        for (int i = 3; i < GameGUI.getDice_in_play(); i++)
-//            scorecardLineList.add(i + "C");
-//        scorecardLineList.add("P");  scorecardLineList.add("S"); scorecardLineList.add("WP");
-//        scorecardLineList.add("CP"); scorecardLineList.add("C"); scorecardLineList.add("RB");
+        for (int i = 3; i < dice_in_play; i++)
+            scorecardLineList.add(i + "C");
+        scorecardLineList.add("P");  scorecardLineList.add("S"); scorecardLineList.add("WP");
+        scorecardLineList.add("CP"); scorecardLineList.add("C"); scorecardLineList.add("RB");
     }
 
     /**
@@ -146,7 +146,7 @@ public class Score {
     public String displayScoreCard() {
         String scorecard = ("Line          Score\n");
         scorecard += ("-------------------\n");
-        for (int i = 0; i < 2; i ++) //GameGUI.getSides_of_dice()
+        for (int i = 0; i < GameGUI.getSides_of_dice(); i ++)
             scorecard += (String.format("%s\t\t%s", scorecardLineList.get(i), scorecardScoreList.get((i))) + "\n");
         scorecard += ("-------------------\n");
         scorecard += (String.format("%s\t%s", "Sub Total", subTotal) + "\n");
@@ -154,7 +154,7 @@ public class Score {
         scorecard += ("-------------------\n");
         scorecard += (String.format("%s\t%s", "Upper Total", upperTotal) + "\n");
         scorecard += ("-------------------\n");
-        for (int i = 2; i < scorecardLineList.size(); i++) //GameGUI.getSides_of_dice()
+        for (int i = GameGUI.getSides_of_dice(); i < scorecardLineList.size(); i++)
             scorecard += (String.format("%s\t\t%s", scorecardLineList.get(i), scorecardScoreList.get((i))) + "\n");
         scorecard += ("-------------------\n");
         scorecard += (String.format("%s\t%s", "Lower Total", lowerTotal) + "\n");
@@ -170,8 +170,7 @@ public class Score {
      */
     public String displayScoreOptions() {
         possibleScoresList.clear();
-        return upperScoreCard(dice_in_play);
-//       return upperScoreCard() + lowerScoreCard();
+       return upperScoreCard(dice_in_play) + lowerScoreCard();
     }
 
     /**
@@ -180,7 +179,7 @@ public class Score {
     public void calculateRunningScores() {
         // subTotal
         subTotal = 0;
-        for (int i = 0; i < 2; i++) // GameGUI.getSides_of_dice()
+        for (int i = 0; i < GameGUI.getSides_of_dice(); i++)
             subTotal += scorecardScoreList.get(i);
         // bonus
         if (subTotal > 84)
@@ -191,7 +190,7 @@ public class Score {
         upperTotal = subTotal + bonus;
         // lower total
         lowerTotal = 0;
-        for (int i =2; i < scorecardLineList.size(); i++) // GameGUI.getSides_of_dice()
+        for (int i = GameGUI.getSides_of_dice(); i < scorecardLineList.size(); i++)
             lowerTotal += scorecardScoreList.get(i);
         // grand total
         grandTotal = upperTotal + lowerTotal;
@@ -203,7 +202,7 @@ public class Score {
      */
     private String upperScoreCard(int dice_in_play) {
         String upperScoreCard = "";
-        for (int dieValue = 1; dieValue <= 2; dieValue++) { //GameGUI.getSides_of_dice()
+        for (int dieValue = 1; dieValue <= GameGUI.getSides_of_dice(); dieValue++) {
             int currentCount = 0;
             for (int diePosition = 0; diePosition < dice_in_play; diePosition++) {
                 if (hand.get(diePosition) == dieValue)
@@ -220,81 +219,81 @@ public class Score {
      * represents the lower score card of the game Yahtzee
      * @return a String of the lowerScoreCard possible options
      */
-//    private String lowerScoreCard() {
-//        String lowerScoreCard = "";
-//
-//        for (int i = 3; i < GameGUI.getDice_in_play(); i++) {
-//            if (maxOfAKindFound() >= i) {
-//                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "C")))
-//                    lowerScoreCard += "Score " + totalAllDice() + " on the " + i + "C line\n";
-//                possibleScoresList.add(totalAllDice());
-//            } else {
-//                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "C")))
-//                    lowerScoreCard += "Score 0  on the " + i + "C line\n";
-//                possibleScoresList.add(0);
-//            }
-//        }
-//
-//        if (primaryFound()) {
-//            int scoreValue = 25 * foundNumPrimaries;
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("P")))
-//                lowerScoreCard += "Score " + scoreValue + " on the P line\n";
-//            possibleScoresList.add(scoreValue);
-//        } else {
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("P")))
-//                lowerScoreCard += "Score 0  on the P line\n";
-//            possibleScoresList.add(0);
-//        }
-//
-//        if (secondaryFound()) {
-//            int scoreValue = 25 * foundNumSecondaries;
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("S")))
-//                lowerScoreCard += "Score "+ scoreValue + " on the S line\n";
-//            possibleScoresList.add(scoreValue);
-//        } else {
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("S")))
-//                lowerScoreCard += "Score 0  on the S line\n";
-//            possibleScoresList.add(0);
-//        }
-//
-//        if (warmPalletFound()) {
-//            int scoreValue = 30 * foundNumWarm;
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("WP")))
-//                lowerScoreCard += "Score " + scoreValue + " on the WP line\n";
-//            possibleScoresList.add(scoreValue);
-//        } else {
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("WP")))
-//                lowerScoreCard += "Score 0  on the WP line\n";
-//            possibleScoresList.add(0);
-//        }
-//
-//        if (coldPalletFound()) {
-//            int scoreValue = 40 * foundNumCold;
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("CP")))
-//                lowerScoreCard += "Score " + scoreValue + " on the CP line\n";
-//            possibleScoresList.add(scoreValue);
-//        } else {
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("CP")))
-//                lowerScoreCard += "Score 0  on the CP line\n";
-//            possibleScoresList.add(0);
-//        }
-//
-//        if (!usedScoreCardLines.contains(scorecardLineList.indexOf("C")))
-//            lowerScoreCard += "Score " + totalAllDice() + " on the C line\n";
-//        possibleScoresList.add(totalAllDice());
-//
-//        if (rainbowFound()) {
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("RB")))
-//                lowerScoreCard += "Score 80 on the RB line\n";
-//            possibleScoresList.add(80);
-//        } else {
-//            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("RB")))
-//                lowerScoreCard += "Score 0  on the RB line\n";
-//            possibleScoresList.add(0);
-//        }
-//
-//        return lowerScoreCard;
-//    }
+    private String lowerScoreCard() {
+        String lowerScoreCard = "";
+
+        for (int i = 3; i < dice_in_play; i++) {
+            if (maxOfAKindFound() >= i) {
+                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "C")))
+                    lowerScoreCard += "Score " + totalAllDice() + " on the " + i + "C line\n";
+                possibleScoresList.add(totalAllDice());
+            } else {
+                if (!usedScoreCardLines.contains(scorecardLineList.indexOf(i + "C")))
+                    lowerScoreCard += "Score 0  on the " + i + "C line\n";
+                possibleScoresList.add(0);
+            }
+        }
+
+        if (primaryFound()) {
+            int scoreValue = 25 * foundNumPrimaries;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("P")))
+                lowerScoreCard += "Score " + scoreValue + " on the P line\n";
+            possibleScoresList.add(scoreValue);
+        } else {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("P")))
+                lowerScoreCard += "Score 0  on the P line\n";
+            possibleScoresList.add(0);
+        }
+
+        if (secondaryFound()) {
+            int scoreValue = 25 * foundNumSecondaries;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("S")))
+                lowerScoreCard += "Score "+ scoreValue + " on the S line\n";
+            possibleScoresList.add(scoreValue);
+        } else {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("S")))
+                lowerScoreCard += "Score 0  on the S line\n";
+            possibleScoresList.add(0);
+        }
+
+        if (warmPalletFound()) {
+            int scoreValue = 30 * foundNumWarm;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("WP")))
+                lowerScoreCard += "Score " + scoreValue + " on the WP line\n";
+            possibleScoresList.add(scoreValue);
+        } else {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("WP")))
+                lowerScoreCard += "Score 0  on the WP line\n";
+            possibleScoresList.add(0);
+        }
+
+        if (coldPalletFound()) {
+            int scoreValue = 40 * foundNumCold;
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("CP")))
+                lowerScoreCard += "Score " + scoreValue + " on the CP line\n";
+            possibleScoresList.add(scoreValue);
+        } else {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("CP")))
+                lowerScoreCard += "Score 0  on the CP line\n";
+            possibleScoresList.add(0);
+        }
+
+        if (!usedScoreCardLines.contains(scorecardLineList.indexOf("C")))
+            lowerScoreCard += "Score " + totalAllDice() + " on the C line\n";
+        possibleScoresList.add(totalAllDice());
+
+        if (rainbowFound()) {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("RB")))
+                lowerScoreCard += "Score 80 on the RB line\n";
+            possibleScoresList.add(80);
+        } else {
+            if (!usedScoreCardLines.contains(scorecardLineList.indexOf("RB")))
+                lowerScoreCard += "Score 0  on the RB line\n";
+            possibleScoresList.add(0);
+        }
+
+        return lowerScoreCard;
+    }
 
     /**
      * totals the dice in the hand
