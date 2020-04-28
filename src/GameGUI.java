@@ -240,9 +240,15 @@ public class GameGUI extends JFrame {
                         } else curr_player++; // round is not over yet. Go to next player's turn
                         updateDice(); // re rolls all dice
                         scorecardButton.setText("PLAYER"+(curr_player+1)+" SCORECARD");
+                        scorecardButton.setVisible(false);
                         rollAgain.setVisible(true);
                         goHit = false;
                     }
+                }
+                else {
+                    System.out.println("else..?");
+                    players.get(curr_player).getScorecard().setVisible(true);
+                    players.get(curr_player).getScorecard().displayScoreOptions(players.get(curr_player).getDetermineScorecard().displayScoreOptions());
                 }
             }
         });
